@@ -6,6 +6,7 @@ var requireAuth = require('../lib/require');
 
 router.param("post_id", function (req, res, next, value) {
   Post.findOne({ _id: value}, function(err, post) {
+    if (err) { res.status(403); }
     req.post = post;
     next();
   })
@@ -15,6 +16,11 @@ router.get('/', function(req, res, next){
   Post.find({}, function(err, posts) {
     res.json(posts);
   })
+});
+
+
+router.get('/:post_id', function(req, res){
+    res.json(req.post);
 });
 
 router.post('/', jwtAuth, requireAuth, function(req, res, next){
@@ -38,11 +44,10 @@ router.post('/', jwtAuth, requireAuth, function(req, res, next){
 });
 
 router.put('/:post_id', jwtAuth, requireAuth, function(req, res, next) {
-  if (!req.body.completed) return next(new Error('Param is missing.'));
-  var completed = req.body.completed === 'true';
-  Post.update({_id:req.post._id}, {$set: {completeTime: completed ? new Date() : null, completed: completed}}, function(error, count) {
+  if (!req.body.title && !req.body.content) return next(new Error('Param is missing.'));
+  Post.update({_id: req.post._id}, {$set: {title: req.body.title, content: req.body.content}}, function(error, count) {
     if (error) return next(error);
-    console.info('Marked post %s with id=%s completed.', req.post.name, req.post._id);
+    console.info('Updated post %s.', req.post._id);
     res.status(200).json({success: "ok"});
   })
 });
@@ -51,7 +56,7 @@ router.delete('/:post_id', jwtAuth, requireAuth, function(req, res, next) {
   Post.removeById(req.post._id, function(error, count) {
     if (error) return next(error);
     if (count !==1) return next(new Error('Something went wrong.'));
-    console.info('Deleted post %s with id=%s completed.', req.post.name, req.post._id);
+    console.info('Deleted post %s.', req.post._id);
     res.status(204).send();
   });
 });
