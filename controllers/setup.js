@@ -13,28 +13,22 @@ router.get('/', function(req, res, next) {
   var tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 7);
 
-  var taskDo = new Post({
+  var post1 = new Post({
     userId: john._id,
     title: 'Call john',
     content: 'To fix a meeting',
   });
 
-  var taskDo2 = new Post({
+  var post2 = new Post({
     userId: john._id,
     title: 'Learn EmberJs',
     content: 'To add it in my skill'
   });
 
-  var taskBuy = new Post({
+  var post3 = new Post({
     userId: john._id,
     title: 'FullMetal Alchimist',
     content: 'To pass a good time'
-  });
-
-  var taskBuy2 = new Post({
-    userId: john._id,
-    title: 'Vinland Saga',
-    content: 'To begin this serie'
   });
 
   // save the first user
@@ -43,25 +37,19 @@ router.get('/', function(req, res, next) {
     console.log('User saved successfully');
   });
 
-  taskDo.save(function(err) {
+  post1.save(function(err) {
     if (err) console.log(err);
-    console.log('PostDo saved successfully');
+    console.log('Post1 saved successfully');
   });
 
-  taskDo2.save(function(err) {
+  post2.save(function(err) {
     if (err) console.log(err);
-    console.log('PostDo2 saved successfully');
+    console.log('Post2 saved successfully');
   });
 
-  taskBuy.save(function(err) {
+  post3.save(function(err) {
     if (err) console.log(err);
-    console.log('PostBuy saved successfully');
-  });
-
-  // save the first task
-  taskBuy2.save(function(err) {
-    if (err) console.log(err);
-    console.log('PostBuy2 saved successfully');
+    console.log('Post3 saved successfully');
     res.json({ success: true });
   });
 });
