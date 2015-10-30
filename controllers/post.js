@@ -48,7 +48,7 @@ router.put('/:post_id', jwtAuth, requireAuth, function(req, res, next) {
   Post.update({_id: req.post._id}, {$set: {title: req.body.title, content: req.body.content}}, function(error, count) {
     if (error) return next(error);
     console.info('Updated post %s.', req.post._id);
-    res.status(200).json({success: "ok"});
+    res.status(200).send();
   })
 });
 
