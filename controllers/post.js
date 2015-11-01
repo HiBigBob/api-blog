@@ -24,15 +24,12 @@ router.get('/:post_id', function(req, res){
 });
 
 router.post('/', jwtAuth, requireAuth, function(req, res, next){
-  if (!req.body || !req.body.name || !req.body.categoryId) return next(new Error('No data provided.'));
+  if (!req.body.title && !req.body.content) return next(new Error('No data provided.'));
 
   var post = new Post({
-    categoryId: req.body.categoryId,
     userId: req.user._id,
-    name: req.body.name,
-    description: req.body.description,
-    deadLineTime: req.body.date ? req.body.date : new Date(),
-    completed: false
+    title: req.body.title,
+    content: req.body.content,
   });
 
   post.save(function(err) {
