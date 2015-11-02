@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var User   = require('../models/user');
 var Post   = require('../models/post');
+var Tag   = require('../models/tag');
 
 router.get('/', function(req, res, next) {
   // create the first user
@@ -31,6 +32,18 @@ router.get('/', function(req, res, next) {
     content: 'To pass a good time'
   });
 
+  var tag1 = new Tag({
+    title: 'EmberJS'
+  });
+
+  var tag2 = new Tag({
+    title: 'ReactJS'
+  });
+
+  var tag3 = new Tag({
+    title: 'VueJS'
+  });
+
   // save the first user
   john.save(function(err) {
     if (err) console.log(err);
@@ -50,6 +63,21 @@ router.get('/', function(req, res, next) {
   post3.save(function(err) {
     if (err) console.log(err);
     console.log('Post3 saved successfully');
+  });
+
+  tag1.save(function(err) {
+    if (err) console.log(err);
+    console.log('tag1 saved successfully');
+  });
+
+  tag2.save(function(err) {
+    if (err) console.log(err);
+    console.log('tag2 saved successfully');
+  });
+
+  tag3.save(function(err) {
+    if (err) console.log(err);
+    console.log('tag3 saved successfully');
     res.json({ success: true });
   });
 });
