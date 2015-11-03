@@ -13,11 +13,13 @@ router.param("post_id", function (req, res, next, value) {
 });
 
 router.get('/', function(req, res, next){
-  Post.find({}, function(err, posts) {
-    res.json(posts);
-  })
+  Post
+    .find({}, function (err, posts) {
+      if (err) return next(new Error(err));
+      res.json(posts);
+    }
+  );
 });
-
 
 router.get('/:post_id', function(req, res){
     res.json(req.post);
@@ -41,12 +43,15 @@ router.post('/', jwtAuth, requireAuth, function(req, res, next){
 });
 
 router.put('/:post_id', jwtAuth, requireAuth, function(req, res, next) {
-  if (!req.body.title && !req.body.content) return next(new Error('Param is missing.'));
-  Post.update({_id: req.post._id}, {$set: {title: req.body.title, content: req.body.content}}, function(error, count) {
+  if (!req.body.title && !req.body.content && !req.body.tags) return next(new Error('Param is missing.'));
+  Post.update({_id: req.post._id}, {$set: {title: req.body.title, content: req.body.content, tags: req.body.tags}}, function(error, count) {
     if (error) return next(error);
     console.info('Updated post %s.', req.post._id);
-    res.status(200).send();
-  })
+
+    Post.findOne({ _id: req.post._id}, function(err, post) {
+      res.status(200).json(post);
+    });
+  });
 });
 
 router.delete('/:post_id', jwtAuth, requireAuth, function(req, res, next) {
