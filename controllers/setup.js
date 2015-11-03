@@ -11,26 +11,6 @@ router.get('/', function(req, res, next) {
     password: 'password'
   });
 
-  var tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 7);
-
-  var post1 = new Post({
-    userId: john._id,
-    title: 'Call john',
-    content: 'To fix a meeting',
-  });
-
-  var post2 = new Post({
-    userId: john._id,
-    title: 'Learn EmberJs',
-    content: 'To add it in my skill'
-  });
-
-  var post3 = new Post({
-    userId: john._id,
-    title: 'FullMetal Alchimist',
-    content: 'To pass a good time'
-  });
 
   var tag1 = new Tag({
     title: 'EmberJS'
@@ -44,25 +24,34 @@ router.get('/', function(req, res, next) {
     title: 'VueJS'
   });
 
+  var post1 = new Post({
+    userId: john._id,
+    title: 'Call john',
+    content: 'To fix a meeting'
+  });
+
+  post1.tags.push(tag2);
+
+  var post2 = new Post({
+    userId: john._id,
+    title: 'Learn EmberJs',
+    content: 'To add it in my skill'
+  });
+
+  post2.tags.push(tag1);
+
+  var post3 = new Post({
+    userId: john._id,
+    title: 'FullMetal Alchimist',
+    content: 'To pass a good time'
+  });
+
+  post3.tags.push(tag3);
+
   // save the first user
   john.save(function(err) {
     if (err) console.log(err);
     console.log('User saved successfully');
-  });
-
-  post1.save(function(err) {
-    if (err) console.log(err);
-    console.log('Post1 saved successfully');
-  });
-
-  post2.save(function(err) {
-    if (err) console.log(err);
-    console.log('Post2 saved successfully');
-  });
-
-  post3.save(function(err) {
-    if (err) console.log(err);
-    console.log('Post3 saved successfully');
   });
 
   tag1.save(function(err) {
@@ -79,6 +68,21 @@ router.get('/', function(req, res, next) {
     if (err) console.log(err);
     console.log('tag3 saved successfully');
     res.json({ success: true });
+  });
+
+  post1.save(function(err) {
+    if (err) console.log(err);
+    console.log('Post1 saved successfully');
+  });
+
+  post2.save(function(err) {
+    if (err) console.log(err);
+    console.log('Post2 saved successfully');
+  });
+
+  post3.save(function(err) {
+    if (err) console.log(err);
+    console.log('Post3 saved successfully');
   });
 });
 
