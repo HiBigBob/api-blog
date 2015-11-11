@@ -55,9 +55,8 @@ router.put('/:post_id', jwtAuth, requireAuth, function(req, res, next) {
 });
 
 router.delete('/:post_id', jwtAuth, requireAuth, function(req, res, next) {
-  Post.removeById(req.post._id, function(error, count) {
+  Post.remove({_id: req.post._id}, function(error, count) {
     if (error) return next(error);
-    if (count !==1) return next(new Error('Something went wrong.'));
     console.info('Deleted post %s.', req.post._id);
     res.status(204).send();
   });
