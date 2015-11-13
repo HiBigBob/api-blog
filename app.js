@@ -1,10 +1,9 @@
-var express = require('express');
-var path = require('path');
-var logger = require('morgan');
-var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
-var jwt = require('jwt-simple');
-var config = require('./config/config');
+var express 	= require('express');
+var path 		= require('path');
+var logger 		= require('morgan');
+var bodyParser 	= require('body-parser');
+var mongoose 	= require('mongoose');
+var config 		= require('./config/config');
 
 var app = express();
 

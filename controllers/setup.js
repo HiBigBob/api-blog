@@ -1,8 +1,8 @@
 var express = require('express');
-var router = express.Router();
-var User   = require('../models/user');
-var Post   = require('../models/post');
-var Tag   = require('../models/tag');
+var router  = express.Router();
+var User    = require('../models/user');
+var Post    = require('../models/post');
+var Tag     = require('../models/tag');
 
 router.get('/', function(req, res, next) {
   // create the first user
@@ -10,7 +10,6 @@ router.get('/', function(req, res, next) {
     username: 'John',
     password: 'password'
   });
-
 
   var tag1 = new Tag({
     title: 'EmberJS'

@@ -1,13 +1,12 @@
-var express = require('express');
-var router = express.Router();
-var UserModel = require('../models/user');
-var jwt = require('jwt-simple');
-var moment = require('moment');
-var config = require('../config/config');
+var express     = require('express');
+var router      = express.Router();
+var UserModel   = require('../models/user');
+var jwt         = require('jwt-simple');
+var moment      = require('moment');
+var config      = require('../config/config');
 
 router.post('/', function(req, res){
   if (req.body.username && req.body.password) {
-    // Fetch the appropriate user, if they exist
     UserModel.findOne({ username: req.body.username }, function(err, user) {
       if (err) {
         res.status(401).json({ error: 'Authentication error' })
@@ -36,7 +35,6 @@ router.post('/', function(req, res){
       }
     });
   } else {
-    // No username provided, or invalid POST request. For simplicity, just return a 401
     res.status(401).json({ error: 'Authentication errors' })
   }
 });
