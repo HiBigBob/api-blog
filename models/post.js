@@ -6,5 +6,6 @@ module.exports = mongoose.model('Post', new Schema({
     title: String,
     content: String,
     createTime: { type: Date, default: Date.now },
+    slug: String,
     tags : [{ type: Schema.Types.ObjectId, ref: 'Tag' }]
 }));

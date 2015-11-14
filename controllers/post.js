@@ -3,6 +3,7 @@ var router      = express.Router();
 var Post        = require('../models/post');
 var auth        = require('../middlewares/auth');
 var require     = require('../middlewares/require');
+var getSlug     = require('../utils/slug');
 
 router.param("post_id", function (req, res, next, value) {
   Post.findOne({ _id: value}, function(err, post) {
@@ -31,6 +32,7 @@ router.post('/', auth, require, function(req, res, next){
   var post = new Post({
     userId: req.user._id,
     title: req.body.title,
+    slug: getSlug(req.body.title),
     content: req.body.content,
   });
 

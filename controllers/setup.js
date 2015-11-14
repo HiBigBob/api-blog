@@ -3,6 +3,7 @@ var router  = express.Router();
 var User    = require('../models/user');
 var Post    = require('../models/post');
 var Tag     = require('../models/tag');
+var getSlug = require('../utils/slug');
 
 router.get('/', function(req, res, next) {
   // create the first user
@@ -23,25 +24,31 @@ router.get('/', function(req, res, next) {
     title: 'VueJS'
   });
 
+  var title = 'Call john';
   var post1 = new Post({
     userId: john._id,
-    title: 'Call john',
+    title: title,
+    slug: getSlug(title), 
     content: 'To fix a meeting'
   });
 
   post1.tags.push(tag2);
 
+  var title = 'Learn EmberJs';
   var post2 = new Post({
     userId: john._id,
-    title: 'Learn EmberJs',
+    title: title,
+    slug: getSlug(title), 
     content: 'To add it in my skill'
   });
 
   post2.tags.push(tag1);
 
+  var title = 'FullMetal Alchimist';
   var post3 = new Post({
     userId: john._id,
-    title: 'FullMetal Alchimist',
+    title: title,
+    slug: getSlug(title), 
     content: 'To pass a good time'
   });
 
