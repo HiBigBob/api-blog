@@ -5,12 +5,12 @@ var post 			= require('../controllers/post');
 var tag 			= require('../controllers/tag');
 
 var auth 			= require('../middlewares/auth');
-var require 		= require('../middlewares/require');
+var requireAuth 	= require('../middlewares/require');
 
-module.exports.set = function(app) {
+module.exports.set 	= function(app) {
 	app.use('/authenticate', authenticate);
 	app.use('/setup', setup);
-  	app.use('/users', [auth, require], user);
+  	app.use('/users', [auth, requireAuth], user);
   	app.use('/posts', post);
   	app.use('/tags', tag);
 }

@@ -2,7 +2,7 @@ var express       = require('express');
 var router        = express.Router();
 var User          = require('../models/user');
 var auth          = require('../middlewares/auth');
-var require       = require('../middlewares/require');
+var required      = require('../middlewares/require');
 
 router.get('/all', function(req, res) {
   User.find({}, function(err, users) {
@@ -10,7 +10,7 @@ router.get('/all', function(req, res) {
   });
 });
 
-router.get('/', auth, require, function(req, res){
+router.get('/', auth, required, function(req, res){
   User.findOne({ username: req.user.username }, function(err, user) {
     if (err) {
       res.send('User not found error', 403)
@@ -19,7 +19,7 @@ router.get('/', auth, require, function(req, res){
   });
 });
 
-router.get('/secret', auth, require, function(req, res){
+router.get('/secret', auth, required, function(req, res){
 	res.json({username : req.user.username})
 });
 

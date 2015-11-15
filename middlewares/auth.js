@@ -1,7 +1,7 @@
-var url = require('url')
-var user = require('../models/user')
-var jwt = require('jwt-simple');
-var config = require('../config/config');
+var url 	= require('url')
+var user 	= require('../models/user')
+var jwt 	= require('jwt-simple');
+var config 	= require('../config/config');
 
 module.exports = function(req, res, next){
 	// Parse the URL, we might need this
