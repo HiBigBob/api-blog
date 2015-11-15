@@ -1,6 +1,6 @@
 module.exports = function(req, res, next){
 	if (!req.user) {
-		res.end('Not authorized', 401)
+		res.status(401).json({error:'Not authorized'});
 	}	else {
 		next()
 	}
