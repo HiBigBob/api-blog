@@ -2,11 +2,16 @@ var express     = require('express');
 var router      = express.Router();
 var Post        = require('../models/post');
 var auth        = require('../middlewares/auth');
-var require     = require('../middlewares/require');
+var required    = require('../middlewares/require');
 var getSlug     = require('../utils/slug');
 
-router.param("post_id", function (req, res, next, value) {
-  Post.findOne({ _id: value}, function(err, post) {
+router.param("id", function (req, res, next, value) {
+  var query = {_id: value};
+  if (value.match('^([a-z]*-[a-z]*)')) {
+    query = {slug: value};
+  };
+
+  Post.findOne(query, function(err, post) {
     if (err) { res.status(403); }
     req.post = post;
     next();
@@ -22,11 +27,11 @@ router.get('/', function(req, res, next){
   );
 });
 
-router.get('/:post_id', function(req, res){
+router.get('/:id', function(req, res){
     res.json(req.post);
 });
 
-router.post('/', auth, require, function(req, res, next){
+router.post('/', auth, required, function(req, res, next){
   if (!req.body.title && !req.body.content) return next(new Error('No data provided.'));
 
   var post = new Post({
@@ -44,7 +49,7 @@ router.post('/', auth, require, function(req, res, next){
   res.status(200).json(post);
 });
 
-router.put('/:post_id', auth, require, function(req, res, next) {
+router.put('/:id', auth, required, function(req, res, next) {
   if (!req.body.title && !req.body.content && !req.body.tags) return next(new Error('Param is missing.'));
   Post.update({_id: req.post._id}, {$set: {title: req.body.title, content: req.body.content, tags: req.body.tags}}, function(error, count) {
     if (error) return next(error);
@@ -56,7 +61,7 @@ router.put('/:post_id', auth, require, function(req, res, next) {
   });
 });
 
-router.delete('/:post_id', auth, require, function(req, res, next) {
+router.delete('/:id', auth, required, function(req, res, next) {
   Post.remove({_id: req.post._id}, function(error, count) {
     if (error) return next(error);
     console.info('Deleted post %s.', req.post._id);
